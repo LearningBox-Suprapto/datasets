@@ -1,4 +1,4 @@
-Key,Observations,StartDate,EndDate,YearNum,Year,Name,MaxWind,MinPressure
+key,observations,start_date,end_date,year_number,year,name,maximum_wind,minimum_pressure
 AL011851,14,1851-06-25T00:00:00Z,1851-06-28T00:00:00Z,1,1851,UNNAMED,80,NA
 AL011852,45,1852-08-19T00:00:00Z,1852-08-30T00:00:00Z,1,1852,UNNAMED,100,961
 AL011853,1,1853-08-05T12:00:00Z,1853-08-05T12:00:00Z,1,1853,UNNAMED,50,NA
