@@ -17,7 +17,7 @@ The raw dataset (not included) is in CSV format. The [codebook](http://www.nhc.n
 Each format (csv, sql, rda) contains three tables: <var>Summary</var>, <var>Details</var>, and <var>Wind Radius</var>. Every row of <var>Summary</var> has many rows in <var>Details</var>. Some rows of <var>Details</var> has one row of <var>Wind Radius</var>. 
 `key` is the **PRIMARY ID** in all three tables. `date_time` is a secondary foreign key to tie <var>Details</var> and <var>Wind Radius</var> together. 
 
-<center>![](HURDAT-data-model.png)</center>
+<center>![HURDAT dataset model](https://github.com/timtrice/datasets/blob/master/HURDAT/HURDAT-data-model.png)</center>
 
 ## Issues
 
