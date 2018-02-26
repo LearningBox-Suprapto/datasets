@@ -1,40 +1,40 @@
--- Top 5 Tags (with overall posts) and top 5 posts within each (by score)
--- ---- top-5-tags ----
-SELECT
-  PostRanks.Id,
-  PostRanks.Score,
-  PostRanks.TagId,
-  Posts.Title,
+-- Top 5 Tags (with overall posts)
+
+SELECT 
+  PostRanks.Id, 
+  PostRanks.Score, 
+  PostRanks.TagId, 
+  Posts.Title, 
   Posts.Tags
 FROM (
   SELECT
     Posts.Id,
-    Posts.Score,
-    PostTags.TagId,
+    Posts.Score, 
+    PostTags.TagId, 
     n = ROW_NUMBER() OVER (
       PARTITION BY
         PostTags.TagId
-      ORDER BY
+      ORDER BY 
       Posts.Score DESC)
-  FROM
+  FROM 
     PostTags
   LEFT JOIN
     Posts
-  ON
-    PostTags.PostId = Posts.Id
+  ON 
+    PostTags.PostId = Posts.Id 
   WHERE
     PostTags.TagId IN (
-      SELECT
-        TOP 5 Tags.Id
-      FROM
+      SELECT 
+        TOP 5 Tags.Id                     -- Modify to return more or less tags
+      FROM 
         Tags
-      ORDER BY
+      ORDER BY 
         Tags.Count DESC)) AS PostRanks
 LEFT JOIN
   Posts
 ON Posts.Id = PostRanks.Id
-WHERE
-  n <= 5
-ORDER BY
-  PostRanks.TagId,
+WHERE 
+  n <= 5                         -- Modify to return more or less posts per tag
+ORDER BY 
+  PostRanks.TagId, 
   PostRanks.Score DESC;
