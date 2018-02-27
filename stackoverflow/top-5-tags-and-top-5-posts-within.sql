@@ -1,5 +1,11 @@
 -- Top 5 Tags (with overall posts)
 
+DECLARE @n_tags int;
+DECLARE @n_posts int;
+
+SET @n_tags = 5;
+SET @n_posts = 5;
+
 SELECT 
   PostRanks.Id, 
   PostRanks.Score, 
@@ -25,7 +31,7 @@ FROM (
   WHERE
     PostTags.TagId IN (
       SELECT 
-        TOP 5 Tags.Id                     -- Modify to return more or less tags
+        TOP (@n_tags) Tags.Id
       FROM 
         Tags
       ORDER BY 
@@ -34,7 +40,8 @@ LEFT JOIN
   Posts
 ON Posts.Id = PostRanks.Id
 WHERE 
-  n <= 5                         -- Modify to return more or less posts per tag
-ORDER BY 
+  n <= @n_posts
+ORDER BY
   PostRanks.TagId, 
   PostRanks.Score DESC;
+
