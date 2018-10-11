@@ -7,8 +7,8 @@
 # ---- libraries ----
 library(curl)
 library(glue)
-library(tidyverse)
-library(XML)
+library(purrr)
+library(readr)
 
 # ---- options ----
 #' NA
