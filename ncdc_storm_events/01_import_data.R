@@ -58,7 +58,7 @@ details <-
     progress = TRUE
   )
 
-save(details, file = "./ncdc_storm_events/details.rda")
+write_csv(details, path = "./ncdc_storm_events/details.csv")
 
 #' ...fatalities (can take a while, too)...
 fatalities <-
@@ -70,7 +70,7 @@ fatalities <-
     progress = TRUE
   )
 
-save(fatalities, file = "./ncdc_storm_events/fatalities.rda")
+write_csv(fatalities, path = "./ncdc_storm_events/fatalities.csv")
 
 #' ...and locations (a bit faster.
 locations <-
@@ -82,5 +82,4 @@ locations <-
     progress = TRUE
   )
 
-save(locations, file = "./ncdc_storm_events/locations.rda")
-
+write_csv(locations, path = "./ncdc_storm_events/locations.csv")
