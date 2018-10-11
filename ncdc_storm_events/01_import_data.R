@@ -52,8 +52,7 @@ details <-
     .x = glue("{ftp}{by_table$details}"),
     .f = read_csv,
     #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$details,
-    progress = TRUE
+    col_types = table_col_types$details
   )
 
 write_csv(details, path = "./ncdc_storm_events/details.csv")
@@ -65,8 +64,7 @@ fatalities <-
     .x = glue("{ftp}{by_table$fatalities}"),
     .f = read_csv,
     #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$fatalities,
-    progress = TRUE
+    col_types = table_col_types$fatalities
   )
 
 write_csv(fatalities, path = "./ncdc_storm_events/fatalities.csv")
@@ -78,8 +76,7 @@ locations <-
     .x = glue("{ftp}{by_table$locations}"),
     .f = read_csv,
     #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$locations,
-    progress = TRUE
+    col_types = table_col_types$locations
   )
 
 write_csv(locations, path = "./ncdc_storm_events/locations.csv")
