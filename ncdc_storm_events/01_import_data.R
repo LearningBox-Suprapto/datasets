@@ -7,7 +7,6 @@
 # ---- libraries ----
 library(curl)
 library(glue)
-library(janitor)
 library(tidyverse)
 library(XML)
 
