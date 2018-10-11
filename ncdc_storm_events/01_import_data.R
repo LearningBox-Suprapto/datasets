@@ -4,35 +4,29 @@
 #'   Database. Build three tables; details, fatalities and locations
 #' @source https://www.ncdc.noaa.gov/stormevents/
 
-## Libraries ----
+# ---- libraries ----
 library(curl)
 library(glue)
 library(janitor)
 library(tidyverse)
 library(XML)
 
-## Options ----
+# ---- options ----
 #' NA
 
-## Settings ----
-# ---- ftp ----
+# ---- settings ----
 #' FTP URL
 ftp <- "ftp://ftp.ncdc.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
 
-# ---- tables ----
 #' Three datasets we'll be obtaining
 tables <- c("details", "fatalities", "locations")
+
 #' Expected col_types per dataset.
 table_col_types <- list(
   "details" = glue_collapse(rep("c", 51L)),
   "fatalities" = glue_collapse(rep("c", 11L)),
   "locations" = glue_collapse(rep("c", 11L))
 )
-
-## Functions ----
-#' NA
-
-## Import Data ----
 
 # ---- connection ----
 #' Establish connection, get list of gz datasets
