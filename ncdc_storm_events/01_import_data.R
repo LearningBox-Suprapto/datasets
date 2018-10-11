@@ -15,11 +15,11 @@ library(XML)
 #' NA
 
 ## Settings ----
-#+ ftp
+# ---- ftp ----
 #' FTP URL
 ftp <- "ftp://ftp.ncdc.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
 
-#+ tables
+# ---- tables ----
 #' Three datasets we'll be obtaining
 tables <- c("details", "fatalities", "locations")
 #' Expected col_types per dataset.
@@ -34,13 +34,13 @@ table_col_types <- list(
 
 ## Import Data ----
 
-#+ connection
+# ---- connection ----
 #' Establish connection, get list of gz datasets
 con = curl(ftp, "r")
 tbl = read.table(con, stringsAsFactors = TRUE, fill = TRUE)
 close(con)
 
-#+ by_table
+# ---- by_table ----
 #' Split out the datasets into their own lists. Will end up with a list of
 #' length 3 for each table containing all related dataset URLs
 by_table <-
@@ -52,7 +52,7 @@ by_table <-
   ) %>%
   set_names(nm = tables)
 
-#+ load_details
+# ---- load_details ----
 #' Get the details dataset (this can take a while)
 details <-
   map_df(
@@ -65,7 +65,7 @@ details <-
 
 write_csv(details, path = "./ncdc_storm_events/details.csv")
 
-#+ load_fatalities
+# ---- load_fatalities ----
 #' ...fatalities (can take a while, too)...
 fatalities <-
   map_df(
@@ -78,7 +78,7 @@ fatalities <-
 
 write_csv(fatalities, path = "./ncdc_storm_events/fatalities.csv")
 
-#+ load_locations
+# ---- load_locations ----
 #' ...and locations (a bit faster.
 locations <-
   map_df(
