@@ -18,14 +18,28 @@ library(readr)
 ftp <- "ftp://ftp.ncdc.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
 
 #' Three datasets we'll be obtaining
-tables <- c("details", "fatalities", "locations")
-
-#' Expected col_types per dataset.
-table_col_types <- list(
-  "details" = glue_collapse(rep("c", 51L)),
-  "fatalities" = glue_collapse(rep("c", 11L)),
-  "locations" = glue_collapse(rep("c", 11L))
+tables <- list(
+  "details" = 51L,
+  "fatalities" = 11L,
+  "locations" = 11L
 )
+
+# ---- functions ----
+#' @title import_datasets
+#' @description Load all csv gzips of a table into one dataframe. All columns
+#'   are imported as character by default.
+#' @param x Table; details, fatalities, or locations
+#' @param y Expected width or number of columns
+#' @param ... Additional read_csv parameters
+import_datasets <- function(x, y, ...) {
+  map_df(
+    .x = glue("{ftp}{by_table[[{x}]]}"),
+    .f = read_csv,
+    #' Make character to avoid reading errors or warnings
+    col_types = glue_collapse(rep("c", y)),
+    ...
+  )
+}
 
 # ---- connection ----
 #' Establish connection, get list of gz datasets
@@ -38,45 +52,20 @@ close(con)
 #' length 3 for each table containing all related dataset URLs
 by_table <-
   map(
-    .x = glue("^StormEvents_{tables}"),
+    .x = glue("^StormEvents_{names(tables)}"),
     .f = grep,
     x = tbl$V9,
     value = TRUE
   ) %>%
-  set_names(nm = tables)
+  set_names(nm = names(tables))
 
-# ---- load_details ----
-#' Get the details dataset (this can take a while)
-details <-
-  map_df(
-    .x = glue("{ftp}{by_table$details}"),
-    .f = read_csv,
-    #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$details
-  )
+# ---- load-data ----
+df <-
+  map2(
+    .x = names(tables),
+    .y = flatten_int(tables),
+    .f = import_datasets
+  ) %>%
+  set_names(nm = names(tables))
 
-write_csv(details, path = "./ncdc_storm_events/details.csv")
-
-# ---- load_fatalities ----
-#' ...fatalities (can take a while, too)...
-fatalities <-
-  map_df(
-    .x = glue("{ftp}{by_table$fatalities}"),
-    .f = read_csv,
-    #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$fatalities
-  )
-
-write_csv(fatalities, path = "./ncdc_storm_events/fatalities.csv")
-
-# ---- load_locations ----
-#' ...and locations (a bit faster.
-locations <-
-  map_df(
-    .x = glue("{ftp}{by_table$locations}"),
-    .f = read_csv,
-    #' Make character to avoid reading errors or warnings
-    col_types = table_col_types$locations
-  )
-
-write_csv(locations, path = "./ncdc_storm_events/locations.csv")
+save(df, file = "data.RData")
