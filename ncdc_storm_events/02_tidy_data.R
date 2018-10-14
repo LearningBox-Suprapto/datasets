@@ -89,3 +89,7 @@ df$fatalities <-
   df$fatalities %>%
   mutate(FATALITY_DATE = mdy_hms(FATALITY_DATE)) %>%
   select(-c(FAT_YEARMONTH, FAT_DAY, FAT_TIME, EVENT_YEARMONTH))
+
+# ---- locations-yearmonth ----
+#' Drop `YEARMONTH`; is redundant (in `details`)
+df$locations$YEARMONTH <- NULL
