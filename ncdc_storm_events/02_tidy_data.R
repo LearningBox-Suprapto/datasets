@@ -84,7 +84,7 @@ df$details <-
     DAMAGE_CROPS_KEY
   ))
 
-# fatalities-dates ----
+# ---- fatalities-dates ----
 df$fatalities <-
   df$fatalities %>%
   mutate(FATALITY_DATE = mdy_hms(FATALITY_DATE)) %>%
