@@ -9,4 +9,4 @@ library(here)
 source(here("./ncdc_storm_events/functions.R"))
 
 # ---- data ----
-load(file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
+load(file = here("./ncdc_storm_events/02_ncdc_storm_events.RData"))
