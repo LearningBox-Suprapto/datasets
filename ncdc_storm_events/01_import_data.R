@@ -1,7 +1,5 @@
-#' @title ncdc_storm_events
 #' @author Tim Trice <tim.trice@gmail.com>
-#' @description Gather and clean csv.gz datasets from the NCDC Storm Events
-#'   Database. Build three tables; details, fatalities and locations
+#' @description Import NCDC Storm Events Database
 #' @source https://www.ncdc.noaa.gov/stormevents/
 
 # ---- libraries ----
