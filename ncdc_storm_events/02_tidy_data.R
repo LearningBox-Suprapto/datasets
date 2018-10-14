@@ -120,4 +120,7 @@ df$fatalities <-
 df$locations$YEARMONTH <- NULL
 
 # ---- save-data ----
-save(df, file = here("./ncdc_storm_events/02_ncdc_storm_events.RData"))
+save(
+  list = objects(),
+  file = here("./ncdc_storm_events/02_ncdc_storm_events.RData")
+)
