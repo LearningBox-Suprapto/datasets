@@ -93,3 +93,6 @@ df$fatalities <-
 # ---- locations-yearmonth ----
 #' Drop `YEARMONTH`; is redundant (in `details`)
 df$locations$YEARMONTH <- NULL
+
+# ---- save-data ----
+save(df, file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
