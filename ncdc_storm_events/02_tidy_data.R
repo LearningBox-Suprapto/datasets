@@ -16,7 +16,7 @@ library(tidyr)
 source(here("./ncdc_storm_events/functions.R"))
 
 # ---- data ----
-load(file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
+load(file = here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
 
 # ---- convert-columns ----
 df <- map(df, mutate_all, .funs = var_conversion)
@@ -99,4 +99,4 @@ df$fatalities <-
 df$locations$YEARMONTH <- NULL
 
 # ---- save-data ----
-save(df, file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
+save(df, file = here("./ncdc_storm_events/02_ncdc_storm_events.RData"))
