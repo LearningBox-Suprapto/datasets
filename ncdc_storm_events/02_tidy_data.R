@@ -1,3 +1,7 @@
+#' @author Tim Trice <tim.trice@gmail.com>
+#' @description Tidy NCDC Storm Events Database
+#' @source https://www.ncdc.noaa.gov/stormevents/
+
 # ---- libraries ----
 library(dplyr)
 library(glue)
