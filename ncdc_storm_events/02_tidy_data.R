@@ -35,3 +35,42 @@ var_conversion <- function(x) {
 
 # ---- convert-columns ----
 df <- map(df, mutate_all, .funs = var_conversion)
+
+# ---- details-dates ----
+#' Add a proper date time for beginning and end
+df$details <-
+  df$details %>%
+  mutate(
+    NEW_BEGIN_DATE_TIME = ymd_hms(
+      glue("
+        {YEAR}-\\
+        {MONTH_NAME}-\\
+        {BEGIN_DAY} \\
+        {hour(dmy_hms(BEGIN_DATE_TIME))}: \\
+        {minute(dmy_hms(BEGIN_DATE_TIME))}: \\
+        {second(dmy_hms(BEGIN_DATE_TIME))}
+      ")
+    ),
+    NEW_END_DATE_TIME = ymd_hms(
+      glue("
+        {YEAR}-\\
+        {MONTH_NAME}-\\
+        {END_DAY} \\
+        {hour(dmy_hms(END_DATE_TIME))}: \\
+        {minute(dmy_hms(END_DATE_TIME))}: \\
+        {second(dmy_hms(END_DATE_TIME))}
+      ")
+    )
+  )
+
+#' Drop old vars and rename new vars
+df$details <-
+  df$details %>%
+  select(-c(
+    BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
+    YEAR, MONTH_NAME, BEGIN_DATE_TIME, END_DATE_TIME
+  )) %>%
+  rename(
+    BEGIN_DATE_TIME = NEW_BEGIN_DATE_TIME,
+    END_DATE_TIME = NEW_END_DATE_TIME
+  )
