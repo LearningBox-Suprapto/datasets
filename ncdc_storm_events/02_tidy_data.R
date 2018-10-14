@@ -67,6 +67,39 @@ df$details <-
     YEAR, MONTH_NAME
   ))
 
+# ---- details-damage ----
 df$details <-
   df$details %>%
+  extract(
+    col = DAMAGE_PROPERTY,
+    into = c("DAMAGE_PROPERTY_VALUE", "DAMAGE_PROPERTY_KEY"),
+    regex = "([[:digit:]\\.]+)([[:alpha:]])*",
+    remove = FALSE,
+    convert = TRUE
+  ) %>%
+  extract(
+    col = DAMAGE_CROPS,
+    into = c("DAMAGE_CROPS_VALUE", "DAMAGE_CROPS_KEY"),
+    regex = "([[:digit:]\\.]+)([[:alpha:]])*",
+    remove = FALSE,
+    convert = TRUE
+  ) %>%
+  mutate_at(
+    .vars = vars(c(DAMAGE_PROPERTY_KEY, DAMAGE_CROPS_KEY)),
+    .funs = ~case_when(
+      .x %in% c("h", "H") ~ 1e2,
+      .x %in% c("k", "K") ~ 1e3,
+      .x %in% c("m", "M") ~ 1e6,
+      .x %in% c("b", "B") ~ 1e9,
+      TRUE                ~ 1
+    )
+  ) %>%
+  mutate(
+    DAMAGE_PROPERTY = DAMAGE_PROPERTY_VALUE * DAMAGE_PROPERTY_KEY,
+    DAMAGE_CROPS = DAMAGE_CROPS_VALUE * DAMAGE_CROPS_KEY
+  ) %>%
   select(-c(
+    DAMAGE_PROPERTY_VALUE, DAMAGE_PROPERTY_KEY, DAMAGE_CROPS_VALUE,
+    DAMAGE_CROPS_KEY
+  ))
+
