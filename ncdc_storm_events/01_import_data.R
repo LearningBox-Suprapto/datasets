@@ -7,6 +7,7 @@
 # ---- libraries ----
 library(curl)
 library(glue)
+library(here)
 library(purrr)
 library(readr)
 
@@ -68,4 +69,4 @@ df <-
   ) %>%
   set_names(nm = names(tables))
 
-save(df, file = "data.RData")
+save(df, file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
