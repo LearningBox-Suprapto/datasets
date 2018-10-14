@@ -41,7 +41,7 @@ df <- map(df, mutate_all, .funs = var_conversion)
 df$details <-
   df$details %>%
   mutate(
-    NEW_BEGIN_DATE_TIME = ymd_hms(
+    BEGIN_DATE_TIME = ymd_hms(
       glue("
         {YEAR}-\\
         {MONTH_NAME}-\\
@@ -51,7 +51,7 @@ df$details <-
         {second(dmy_hms(BEGIN_DATE_TIME))}
       ")
     ),
-    NEW_END_DATE_TIME = ymd_hms(
+    END_DATE_TIME = ymd_hms(
       glue("
         {YEAR}-\\
         {MONTH_NAME}-\\
@@ -61,16 +61,12 @@ df$details <-
         {second(dmy_hms(END_DATE_TIME))}
       ")
     )
-  )
+  ) %>%
+  select(-c(
+    BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
+    YEAR, MONTH_NAME
+  ))
 
-#' Drop old vars and rename new vars
 df$details <-
   df$details %>%
   select(-c(
-    BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
-    YEAR, MONTH_NAME, BEGIN_DATE_TIME, END_DATE_TIME
-  )) %>%
-  rename(
-    BEGIN_DATE_TIME = NEW_BEGIN_DATE_TIME,
-    END_DATE_TIME = NEW_END_DATE_TIME
-  )
