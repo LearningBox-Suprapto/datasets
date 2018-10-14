@@ -9,7 +9,7 @@ library(stringr)
 library(tidyr)
 
 # ---- data ----
-load(file = "data.RData")
+load(file = here("./ncdc_storm_events/ncdc_storm_events.RData"))
 
 # ---- functions ----
 #' @title var_conversion
