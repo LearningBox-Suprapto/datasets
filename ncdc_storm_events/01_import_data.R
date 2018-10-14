@@ -11,6 +11,9 @@ library(here)
 library(purrr)
 library(readr)
 
+# ---- sources ----
+source(here("./ncdc_storm_events/functions.R"))
+
 # ---- options ----
 #' NA
 
@@ -24,23 +27,6 @@ tables <- list(
   "fatalities" = 11L,
   "locations" = 11L
 )
-
-# ---- functions ----
-#' @title import_datasets
-#' @description Load all csv gzips of a table into one dataframe. All columns
-#'   are imported as character by default.
-#' @param x Table; details, fatalities, or locations
-#' @param y Expected width or number of columns
-#' @param ... Additional read_csv parameters
-import_datasets <- function(x, y, ...) {
-  map_df(
-    .x = glue("{ftp}{by_table[[{x}]]}"),
-    .f = read_csv,
-    #' Make character to avoid reading errors or warnings
-    col_types = glue_collapse(rep("c", y)),
-    ...
-  )
-}
 
 # ---- connection ----
 #' Establish connection, get list of gz datasets
