@@ -88,6 +88,27 @@ df$details <-
     DAMAGE_CROPS_KEY
   ))
 
+# ---- state-fips ----
+#' Create lookup table for `STATE_FIPS`. Each `STATE` has it's own `STATE_FIPS`
+#' in this dataset. Whether it is the correct FIPS (I have reasons to believe
+#' it is not) is irrelevant; it is what it is in the dataset.
+state_fips <-
+  df$details %>%
+  group_by(STATE_FIPS, STATE) %>%
+  summarise() %>%
+  na.omit() %>%
+  mutate(STATE = str_to_title(STATE)) %>%
+  left_join(tibble(STATE = state.name, STATE_ABB = state.abb), by = "STATE")
+
+state_fips$STATE_ABB[state_fips$STATE == "American Samoa"] <- "AS"
+state_fips$STATE_ABB[state_fips$STATE == "District Of Columbia"] <- "DC"
+state_fips$STATE_ABB[state_fips$STATE == "Guam"] <- "GU"
+state_fips$STATE_ABB[state_fips$STATE == "Puerto Rico"] <- "PR"
+state_fips$STATE_ABB[state_fips$STATE == "Virgin Islands"] <- "VI"
+
+#' Can safely drop `STATE` from `details`
+df$details$STATE <- NULL
+
 # ---- fatalities-dates ----
 df$fatalities <-
   df$fatalities %>%
