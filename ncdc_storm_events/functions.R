@@ -34,5 +34,5 @@ var_conversion <- function(x) {
   if (all(is_empty(z$warnings), is_empty(z$messages)))
     return(z$result)
 
-  return(x)
+  x
 }
