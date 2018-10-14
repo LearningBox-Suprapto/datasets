@@ -103,3 +103,8 @@ df$details <-
     DAMAGE_CROPS_KEY
   ))
 
+# fatalities-dates ----
+df$fatalities <-
+  df$fatalities %>%
+  mutate(FATALITY_DATE = mdy_hms(FATALITY_DATE)) %>%
+  select(-c(FAT_YEARMONTH, FAT_DAY, FAT_TIME, EVENT_YEARMONTH))
