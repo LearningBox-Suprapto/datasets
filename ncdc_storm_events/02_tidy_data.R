@@ -1,22 +1,24 @@
 #' @author Tim Trice <tim.trice@gmail.com>
 #' @description Tidy NCDC Storm Events Database
 #' @source https://www.ncdc.noaa.gov/stormevents/
+#' @details
+#'   1.In this script, I use `here::here` rather than load it due to the use
+#'     of `lubridate::here`; it can create "unused argument" errors; so I just
+#'     decided to make direct calls to the namespace.
 
 # ---- libraries ----
 library(dplyr)
 library(glue)
-library(lubridate)
-#' Load after `lubridate` so `here::here` is not masked behind `lubridate::here`
-library(here)
+library(lubridate)      #' See @details #1
 library(purrr)
 library(stringr)
 library(tidyr)
 
 # ---- sources ----
-source(here("./ncdc_storm_events/functions.R"))
+source(here::here("./ncdc_storm_events/functions.R"))
 
 # ---- data ----
-load(file = here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
+load(file = here::here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
 
 # ---- convert-columns ----
 df <- map(df, mutate_all, .funs = var_conversion)
@@ -122,5 +124,5 @@ df$locations$YEARMONTH <- NULL
 # ---- save-data ----
 save(
   list = objects(),
-  file = here("./ncdc_storm_events/02_ncdc_storm_events.RData")
+  file = here::here("./ncdc_storm_events/02_ncdc_storm_events.RData")
 )

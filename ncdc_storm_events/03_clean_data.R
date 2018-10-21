@@ -3,10 +3,9 @@
 #' @source https://www.ncdc.noaa.gov/stormevents/
 
 # ---- libraries ----
-library(here)
 
 # ---- sources ----
-source(here("./ncdc_storm_events/functions.R"))
+source(here::here("./ncdc_storm_events/functions.R"))
 
 # ---- data ----
-load(file = here("./ncdc_storm_events/02_ncdc_storm_events.RData"))
+load(file = here::here("./ncdc_storm_events/02_ncdc_storm_events.RData"))
