@@ -38,3 +38,11 @@ df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Tornadoes, Tstm Wind, Hail"] <- 
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Volcanic Ashfall"] <- "Volcanic Ash"
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Other"] <- NA_character_
 
+# ---- cz-type ----
+#' There are 23 values of "2" for `CZ_TYPE`; however, when examining the variables
+#' `CZ_TYPE`, `CZ_FIPS`, and `CZ_NAME`, there are not clear distinctions as to
+#' what the correct value should be. Every entry where `CZ_TYPE` is 2 also has
+#' at least one observation with value of "C" and a value of "Z". Therefore, I
+#' cannot safely conclude these 23 should be one or another. Because of this,
+#' will make NA.
+df$details$CZ_TYPE[df$details$CZ_TYPE == 2] <- NA_character_
