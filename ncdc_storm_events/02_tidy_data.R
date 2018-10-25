@@ -21,38 +21,25 @@ source(here::here("./ncdc_storm_events/functions.R"))
 load(file = here::here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
 
 # ---- convert-columns ----
-df <- map(df, mutate_all, .funs = var_conversion)
+df <- map(df, .f = mutate_all, .funs = var_conversion)
 
 # ---- details-dates ----
-#' Add a proper date time for beginning and end
+#' Add a proper date time for beginning and end dates/times
+#' 2018-10-25 - Resolves GH Issue #2
 df$details <-
   df$details %>%
-  mutate(
-    BEGIN_DATE_TIME = ymd_hms(
-      glue("
-        {YEAR}-\\
-        {MONTH_NAME}-\\
-        {BEGIN_DAY} \\
-        {hour(dmy_hms(BEGIN_DATE_TIME))}: \\
-        {minute(dmy_hms(BEGIN_DATE_TIME))}: \\
-        {second(dmy_hms(BEGIN_DATE_TIME))}
-      ")
-    ),
-    END_DATE_TIME = ymd_hms(
-      glue("
-        {YEAR}-\\
-        {MONTH_NAME}-\\
-        {END_DAY} \\
-        {hour(dmy_hms(END_DATE_TIME))}: \\
-        {minute(dmy_hms(END_DATE_TIME))}: \\
-        {second(dmy_hms(END_DATE_TIME))}
-      ")
-    )
+  mutate_at(
+    .vars = vars("BEGIN_DATE_TIME", "END_DATE_TIME"),
+    .funs = parse_date_time2,
+    orders = "%d!-%m!-%y!* %H!:%M!:%S!",
+    cutoff_2000 = 19L
   ) %>%
-  select(-c(
-    BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
-    YEAR, MONTH_NAME
-  ))
+  select(
+    -c(
+      BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
+      YEAR, MONTH_NAME
+    )
+  )
 
 # ---- details-damage ----
 df$details <-
