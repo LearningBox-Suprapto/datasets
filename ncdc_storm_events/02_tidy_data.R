@@ -39,6 +39,11 @@ df$details <-
       BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
       YEAR, MONTH_NAME
     )
+  ) %>%
+  #' Make character string; timezones are invalid and junk.
+  mutate_at(
+    .vars = vars("BEGIN_DATE_TIME", "END_DATE_TIME"),
+    .funs = as.character,
   )
 
 # ---- details-damage ----
