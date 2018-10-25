@@ -46,3 +46,17 @@ df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Other"] <- NA_character_
 #' cannot safely conclude these 23 should be one or another. Because of this,
 #' will make NA.
 df$details$CZ_TYPE[df$details$CZ_TYPE == 2] <- NA_character_
+
+# ---- state ----
+#' We can safely cross reference `fips$STATE`
+df$details$STATE <- NULL
+
+# ---- cz-fips ----
+#' There are 1667 records in `df$details$CZ_FIPS` that equal int 0; 0 is not a
+#' valid CZ_FIP; make NA.
+df$details$CZ_FIPS[df$details$CZ_FIPS == 0] <- NA_integer_
+
+# ---- cz-timezone ----
+#' Remove CZ_TIMEZONE; wildly inaccurate. This means `BEGIN_DATE_TIME` and
+#' `END_DATE_TIME` which both have timezone stamps must be corrected.
+df$details$CZ_TIMEZONE <- NULL
