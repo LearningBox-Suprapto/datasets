@@ -114,5 +114,16 @@ fips <-
   distinct() %>%
   write_csv(path = here("./ncdc_storm_events/fips.csv"))
 
+# ---- zone-county ----
+#' source https://www.weather.gov/gis/ZoneCounty
+zone_county <-
+  read_delim(
+    "https://www.weather.gov/source/gis/Shapefiles/County/bp02oc18.dbx",
+    delim = "|",
+    col_names = c("STATE", "ZONE", "CWA", "NAME", "STATE_ZONE", "COUNTY", "FIPS",
+                  "TIME_ZONE", "FE_AREA", "LAT", "LON")
+  ) %>%
+  write_csv(here("./ncdc_storm_events/zone_county.csv"))
+
 # ---- save-data ----
 save(df, file = here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
