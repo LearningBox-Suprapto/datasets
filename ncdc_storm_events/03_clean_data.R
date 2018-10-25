@@ -60,3 +60,6 @@ df$details$CZ_FIPS[df$details$CZ_FIPS == 0] <- NA_integer_
 #' Remove CZ_TIMEZONE; wildly inaccurate. This means `BEGIN_DATE_TIME` and
 #' `END_DATE_TIME` which both have timezone stamps must be corrected.
 df$details$CZ_TIMEZONE <- NULL
+
+# ---- save-data ----
+walk(names(df), ~write_csv(x = get(df[[.x]]), path = glue(here::here("./ncdc_storm_events/{.x}.csv"))))
