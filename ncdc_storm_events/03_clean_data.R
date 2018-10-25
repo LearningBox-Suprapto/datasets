@@ -36,10 +36,7 @@ df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Thunderstorm Winds/Heavy Rain"] 
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Tornado/Waterspout"] <- "Tornado, Waterspout"
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Tornadoes, Tstm Wind, Hail"] <- "Tornado, Thunderstorm Wind, Hail"
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Volcanic Ashfall"] <- "Volcanic Ash"
-df$details$EVENT_TYPE[df$details$EVENT_TYPE == " Flooding"] <- "Flood"
 df$details$EVENT_TYPE[df$details$EVENT_TYPE == "Other"] <- NA_character_
-
-df$details$EVENT_TYPE <- str_trim(df$details$EVENT_TYPE)
 
 # ---- cz-type ----
 #' There are 23 values of "2" for `CZ_TYPE`; however, when examining the variables
