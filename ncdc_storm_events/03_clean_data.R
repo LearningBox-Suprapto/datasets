@@ -65,4 +65,7 @@ df$details$CZ_FIPS[df$details$CZ_FIPS == 0] <- NA_integer_
 df$details$CZ_TIMEZONE <- NULL
 
 # ---- save-data ----
-walk(names(df), ~write_csv(x = get(df[[.x]]), path = glue(here::here("./ncdc_storm_events/{.x}.csv"))))
+save(
+  df,
+  file = here::here("./ncdc_storm_events/03_ncdc_storm_events.RData")
+)
