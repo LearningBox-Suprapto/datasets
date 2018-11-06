@@ -1,56 +1,51 @@
 #' @author Tim Trice <tim.trice@gmail.com>
 #' @description Tidy NCDC Storm Events Database
 #' @source https://www.ncdc.noaa.gov/stormevents/
+#' @details
+#'   1.In this script, I use `here::here` rather than load it due to the use
+#'     of `lubridate::here`; it can create "unused argument" errors; so I just
+#'     decided to make direct calls to the namespace.
 
 # ---- libraries ----
 library(dplyr)
 library(glue)
-library(lubridate)
 #' Load after `lubridate` so `here::here` is not masked behind `lubridate::here`
-library(here)
+library(lubridate)      #' See @details #1
 library(purrr)
 library(stringr)
 library(tidyr)
 
 # ---- sources ----
-source(here("./ncdc_storm_events/functions.R"))
+source(here::here("./ncdc_storm_events/functions.R"))
 
 # ---- data ----
-load(file = here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
+load(file = here::here("./ncdc_storm_events/01_ncdc_storm_events.RData"))
 
 # ---- convert-columns ----
-df <- map(df, mutate_all, .funs = var_conversion)
+df <- map(df, .f = mutate_all, .funs = var_conversion)
 
 # ---- details-dates ----
-#' Add a proper date time for beginning and end
+#' Add a proper date time for beginning and end dates/times
+#' 2018-10-25 - Resolves GH Issue #2
 df$details <-
   df$details %>%
-  mutate(
-    BEGIN_DATE_TIME = ymd_hms(
-      glue("
-        {YEAR}-\\
-        {MONTH_NAME}-\\
-        {BEGIN_DAY} \\
-        {hour(dmy_hms(BEGIN_DATE_TIME))}: \\
-        {minute(dmy_hms(BEGIN_DATE_TIME))}: \\
-        {second(dmy_hms(BEGIN_DATE_TIME))}
-      ")
-    ),
-    END_DATE_TIME = ymd_hms(
-      glue("
-        {YEAR}-\\
-        {MONTH_NAME}-\\
-        {END_DAY} \\
-        {hour(dmy_hms(END_DATE_TIME))}: \\
-        {minute(dmy_hms(END_DATE_TIME))}: \\
-        {second(dmy_hms(END_DATE_TIME))}
-      ")
+  mutate_at(
+    .vars = vars("BEGIN_DATE_TIME", "END_DATE_TIME"),
+    .funs = parse_date_time2,
+    orders = "%d!-%m!-%y!* %H!:%M!:%S!",
+    cutoff_2000 = 19L
+  ) %>%
+  select(
+    -c(
+      BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
+      YEAR, MONTH_NAME
     )
   ) %>%
-  select(-c(
-    BEGIN_YEARMONTH, BEGIN_DAY, BEGIN_TIME, END_YEARMONTH, END_DAY, END_TIME,
-    YEAR, MONTH_NAME
-  ))
+  #' Make character string; timezones are invalid and junk.
+  mutate_at(
+    .vars = vars("BEGIN_DATE_TIME", "END_DATE_TIME"),
+    .funs = as.character,
+  )
 
 # ---- details-damage ----
 df$details <-
@@ -89,23 +84,6 @@ df$details <-
   ))
 
 # ---- state-fips ----
-#' Create lookup table for `STATE_FIPS`. Each `STATE` has it's own `STATE_FIPS`
-#' in this dataset. Whether it is the correct FIPS (I have reasons to believe
-#' it is not) is irrelevant; it is what it is in the dataset.
-state_fips <-
-  df$details %>%
-  group_by(STATE_FIPS, STATE) %>%
-  summarise() %>%
-  na.omit() %>%
-  mutate(STATE = str_to_title(STATE)) %>%
-  left_join(tibble(STATE = state.name, STATE_ABB = state.abb), by = "STATE")
-
-state_fips$STATE_ABB[state_fips$STATE == "American Samoa"] <- "AS"
-state_fips$STATE_ABB[state_fips$STATE == "District Of Columbia"] <- "DC"
-state_fips$STATE_ABB[state_fips$STATE == "Guam"] <- "GU"
-state_fips$STATE_ABB[state_fips$STATE == "Puerto Rico"] <- "PR"
-state_fips$STATE_ABB[state_fips$STATE == "Virgin Islands"] <- "VI"
-
 #' Can safely drop `STATE` from `details`
 df$details$STATE <- NULL
 
@@ -122,5 +100,5 @@ df$locations$YEARMONTH <- NULL
 # ---- save-data ----
 save(
   list = objects(),
-  file = here("./ncdc_storm_events/02_ncdc_storm_events.RData")
+  file = here::here("./ncdc_storm_events/02_ncdc_storm_events.RData")
 )
