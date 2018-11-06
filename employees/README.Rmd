@@ -1,0 +1,164 @@
+---
+title: "README"
+output: md_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE
+)
+```
+
+This dataset is a CSV export of the [MySQL Employees](https://github.com/datacharmer/test_db) sample dataset. 
+
+<center>![](https://dev.mysql.com/doc/employee/en/images/employees-schema.png)</center>
+
+## Data Dictionary
+
+### departments
+
+```{r departments}
+departments <- readr::read_csv(
+  file = "departments.csv", 
+  col_types = readr::cols(), 
+  col_names = c("dept_no", "dept_name")
+)
+str(departments)
+tibble::glimpse(departments)
+```
+
+#### Notes
+
+ * `dept_no`
+   + Values are alphanumberic ("A000")
+ * `dept_name`
+   + Values are title-case
+
+### dept_emp
+
+```{r dept_emp}
+dept_emp <- readr::read_csv(
+  file = "dept_emp.csv", 
+  col_types = readr::cols(), 
+  col_names = c("emp_no", "dept_no", "from_date", "to_date")
+)
+str(dept_emp)
+tibble::glimpse(dept_emp)
+```
+
+#### Notes
+
+  * `emp_no`
+    + Key to `employees`.`emp_no`
+  * `dept_no` 
+    + Key to `departments`.`dept_no`
+  * `from_date`
+    + Date in YYYY-MM-DD format
+    + Some values == `to_date`; could indicate employee in same department?
+  * `to_date`
+    + Date in YYYY-MM-DD format
+    + Many dates such as "9999-01-01"; could indicate employee in same department?
+    + Some values == `from_date`; could indicate employee in same department?
+
+### dept_manager
+
+```{r dept_manager}
+dept_manager <- readr::read_csv(
+  file = "dept_manager.csv", 
+  col_types = readr::cols(), 
+  col_names = c("dept_no", "emp_no", "from_date", "to_date")
+)
+str(dept_manager)
+tibble::glimpse(dept_manager)
+```
+
+  * `dept_no`
+    + Key to `departments`.`dept_no`
+  * `emp_no`
+    + Key to `employees`.`emp_no`
+  * `from_date`
+  * `to_date`
+    + Many dates such as "9999-01-01"; could indicate employee still department manager?
+
+#### Notes
+
+### employees
+
+```{r employees}
+employees <- readr::read_csv(
+  file = "employees.csv", 
+  col_types = readr::cols(), 
+  col_names = c(
+    "emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"
+  )
+)
+str(employees)
+tibble::glimpse(employees)
+```
+
+#### Notes
+
+  * `emp_no`
+    + Key to `employees`.`emp_no`
+  * `birth_date`
+    + Date in YYYY-MM-DD format
+  * `first_name`
+  * `last_name`
+  * `gender`
+    + "M" or "F"
+  * `hire_date`
+    + Date in YYYY-MM-DD format
+
+### salaries
+
+```{r salaries}
+salaries <- readr::read_csv(
+  file = "salaries.csv", 
+  col_types = readr::cols(), 
+  col_names = c("emp_no", "salary", "from_date", "to_date")
+)
+str(salaries)
+tibble::glimpse(salaries)
+```
+
+#### Notes
+
+  * `emp_no`
+    + digits, length 5 to 6
+  * `salary`
+    + digits, 5 to 6 in length
+  * `from_date`
+    + Date in YYYY-MM-DD format
+    + Cases where `from_date` == `to_date`; could indicate current salary
+  * `to_date`
+    + Date in YYYY-MM-DD format
+    + Cases where `from_date` == `to_date`; could indicate current salary
+    + Many dates such as "9999-01-01"; could indicate current salary
+
+### titles
+
+```{r titles}
+titles <- readr::read_csv(
+  file = "titles.csv", 
+  col_types = readr::cols(), 
+  col_names = c("emp_no", "title", "from_date", "to_date")
+)
+str(titles)
+tibble::glimpse(titles)
+```
+
+#### Notes
+
+  * `emp_no`
+    + Key to `employees`.`emp_no`
+  * `title`
+    + Title-case string
+  * `from_date`
+    + Date in YYYY-MM-DD format
+    + Cases where `from_date` == `to_date`; could indicate current title
+  * `to_date`
+    + Date in YYYY-MM-DD format
+    + Cases where `from_date` == `to_date`; could indicate current title
+    + Many dates such as "9999-01-01"; could indicate current title
