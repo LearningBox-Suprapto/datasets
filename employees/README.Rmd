@@ -22,8 +22,7 @@ This dataset is a CSV export of the [MySQL Employees](https://github.com/datacha
 ```{r departments}
 departments <- readr::read_csv(
   file = "departments.csv", 
-  col_types = readr::cols(), 
-  col_names = c("dept_no", "dept_name")
+  col_types = readr::cols()
 )
 str(departments)
 tibble::glimpse(departments)
@@ -41,8 +40,7 @@ tibble::glimpse(departments)
 ```{r dept_emp}
 dept_emp <- readr::read_csv(
   file = "dept_emp.csv", 
-  col_types = readr::cols(), 
-  col_names = c("emp_no", "dept_no", "from_date", "to_date")
+  col_types = readr::cols()
 )
 str(dept_emp)
 tibble::glimpse(dept_emp)
@@ -67,8 +65,7 @@ tibble::glimpse(dept_emp)
 ```{r dept_manager}
 dept_manager <- readr::read_csv(
   file = "dept_manager.csv", 
-  col_types = readr::cols(), 
-  col_names = c("dept_no", "emp_no", "from_date", "to_date")
+  col_types = readr::cols()
 )
 str(dept_manager)
 tibble::glimpse(dept_manager)
@@ -89,10 +86,7 @@ tibble::glimpse(dept_manager)
 ```{r employees}
 employees <- readr::read_csv(
   file = "employees.csv", 
-  col_types = readr::cols(), 
-  col_names = c(
-    "emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"
-  )
+  col_types = readr::cols()
 )
 str(employees)
 tibble::glimpse(employees)
@@ -116,8 +110,7 @@ tibble::glimpse(employees)
 ```{r salaries}
 salaries <- readr::read_csv(
   file = "salaries.csv", 
-  col_types = readr::cols(), 
-  col_names = c("emp_no", "salary", "from_date", "to_date")
+  col_types = readr::cols()
 )
 str(salaries)
 tibble::glimpse(salaries)
@@ -142,8 +135,7 @@ tibble::glimpse(salaries)
 ```{r titles}
 titles <- readr::read_csv(
   file = "titles.csv", 
-  col_types = readr::cols(), 
-  col_names = c("emp_no", "title", "from_date", "to_date")
+  col_types = readr::cols()
 )
 str(titles)
 tibble::glimpse(titles)

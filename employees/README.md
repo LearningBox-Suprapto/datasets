@@ -11,8 +11,7 @@ Data Dictionary
 
     departments <- readr::read_csv(
       file = "departments.csv", 
-      col_types = readr::cols(), 
-      col_names = c("dept_no", "dept_name")
+      col_types = readr::cols()
     )
     str(departments)
 
@@ -47,8 +46,7 @@ Data Dictionary
 
     dept_emp <- readr::read_csv(
       file = "dept_emp.csv", 
-      col_types = readr::cols(), 
-      col_names = c("emp_no", "dept_no", "from_date", "to_date")
+      col_types = readr::cols()
     )
     str(dept_emp)
 
@@ -103,8 +101,7 @@ Data Dictionary
 
     dept_manager <- readr::read_csv(
       file = "dept_manager.csv", 
-      col_types = readr::cols(), 
-      col_names = c("dept_no", "emp_no", "from_date", "to_date")
+      col_types = readr::cols()
     )
     str(dept_manager)
 
@@ -153,10 +150,7 @@ Data Dictionary
 
     employees <- readr::read_csv(
       file = "employees.csv", 
-      col_types = readr::cols(), 
-      col_names = c(
-        "emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"
-      )
+      col_types = readr::cols()
     )
     str(employees)
 
@@ -215,8 +209,7 @@ Data Dictionary
 
     salaries <- readr::read_csv(
       file = "salaries.csv", 
-      col_types = readr::cols(), 
-      col_names = c("emp_no", "salary", "from_date", "to_date")
+      col_types = readr::cols()
     )
     str(salaries)
 
@@ -270,8 +263,7 @@ Data Dictionary
 
     titles <- readr::read_csv(
       file = "titles.csv", 
-      col_types = readr::cols(), 
-      col_names = c("emp_no", "title", "from_date", "to_date")
+      col_types = readr::cols()
     )
     str(titles)
 
